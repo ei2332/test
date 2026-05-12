@@ -1,0 +1,29 @@
+#
+name: Trivy Scan to OWASP Juice shop
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Pull Docker
+        run: docker pull bkimminich/juice-shop
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "bkimminich/juice-shop"
+          scan-type: "image"
+          format: "table"
+          exit-code: "0" # 0だと脆弱性検知しても通る　1だと検知後落ちる
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
+          scanners: "license, secret vule misconfig"
