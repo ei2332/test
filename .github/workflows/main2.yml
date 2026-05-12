@@ -26,4 +26,4 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-          scanners: "license, secret vule misconfig"
+          scanners: "vuln,secret"
